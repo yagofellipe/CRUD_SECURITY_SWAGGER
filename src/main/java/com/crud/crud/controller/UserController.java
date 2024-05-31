@@ -36,6 +36,18 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+        User user = userService.getUserById(id);
+        if (user != null) {
+            user.setUsername(userDetails.getUsername());
+            user.setPassword(userDetails.getPassword());
+            user.setRole(userDetails.getRole());
+            return ResponseEntity.ok(userService.saveUser(user));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id){
